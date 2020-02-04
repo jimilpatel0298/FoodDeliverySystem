@@ -1,0 +1,107 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://kit.fontawesome.com/2e172c22c1.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title></title>
+      <style>
+      {%block css %}
+        {% endblock %}
+         .btn-margin-left{margin-left: 10px;}
+         .btn-margin-right{margin-right: 10px;}
+      </style>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li>
+                <img src="{% static 'logo.png'%}" width="40" height="40" class="d-inline-block align-top">
+            </li>
+            {% if user.is_authenticated %}
+            <li>
+              <span class="navbar-text mx-auto">
+                &nbsp;&nbsp;&nbsp;Welcome {{user.first_name}} {{user.last_name}}
+              </span>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+      {% if user.is_authenticated %}
+    <div class="mx-auto order-0">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            &nbsp;&nbsp;&nbsp;Food Delivery System
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+      {%else%}
+          <div class="mx-auto order-0">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            &nbsp;&nbsp;&nbsp;Food Delivery System
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+      {% endif %}
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="btn btn-primary btn-margin-left" href="#" role="button">Register</a>
+            </li>
+            <li class="nav-item">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{user.first_name}} {{user.last_name}}
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{% url 'profile' %}" role="button">Edit Profile</a>
+                    <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="{% url 'logout' %}" role="button">Logout</a>
+                  </div>
+                </div>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="btn btn-primary" href="{% url 'login' %}" role="button">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-primary btn-margin-left" href="{% url 'register' %}" role="button">Register</a>
+            </li>
+          {% endif %}
+        </ul>
+    </div>
+</nav>
+  {% block image %}
+  {% endblock %}
+  <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-warning alert-dismissable" role="alert">
+            <button class="close" data-dismiss="alert">
+              <small><sup>x</sup></small>
+            </button>
+            {{message}}
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% block content %}
+      {% endblock %}
+  </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </body>
+</html>

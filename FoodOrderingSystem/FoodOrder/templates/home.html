@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+          #example1 {
+          background-repeat: no-repeat;
+          background-size: cover;
+          marin-top: 5px;
+          border: 2px solid black;
+          height: 665px;
+        }
+        #example2 {
+          color: white;
+          padding: 70px;
+        }
+        .imageh2 {
+          text-shadow: 4px 4px 6px #000000;
+        }
+        .buttonimg {
+          box-shadow: 2px 2px 6px black;
+        }
+{% endblock %}
+{% block image %}
+  <div id="example1" style="background-image:url({% static 'food3.jpg' %})">
+    <div id="example2">
+      <h2 class="imageh2">Enjoy the authentic Indian taste.</h2><br>
+        {%if user.is_authenticated %}
+      <a class="btn btn-danger buttonimg" href="{% url 'home_menu' %}" role="button">ORDER FOOD NOW</a>
+        {% else %}
+        <a class="btn btn-danger buttonimg" href="{% url 'login' %}" role="button">ORDER FOOD NOW</a>
+        {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+

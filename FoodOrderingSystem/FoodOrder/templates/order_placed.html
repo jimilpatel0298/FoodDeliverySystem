@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-md-6 offset-md-3">
+  <br><br>
+  <p class="text-secondary text-justify">
+   Your food is on the way. Get ready to have sizzling food straight from our kitchen.
+  </p><br>
+  <p class="text-secondary text-justify">
+    Thank You for using our service. Please pay to the delivery person in cash.
+  </p>
+    <br>
+    <div class="text-center"><br><br>
+          <a href="{% url 'invoice' %}" class="text-primary"><small>Click here to download your invoice.</small></a>
+    <a href="{% url 'home_menu' %}" class="text-danger"><small>Check more items to order.</small></a>
+    </div>
+</div>
+{% endblock %}

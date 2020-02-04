@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+{% endblock %}
+{% block content %}
+<br>
+<h2 class="text-center">Order Summary</h2>
+<br><br>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody id="items">
+  </tbody>
+</table>
+<br>
+<br>
+<div class="text-center" id="buttondiv"></div>
+
+{% endblock %}
+
+{% block js %}
+  <script>
+      if(localStorage.getItem('cart') == null){
+    var cart = {};
+  }
+  else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+  }
+  console.log(cart);
+var sum = 0;
+  if ($.isEmptyObject(cart)){
+     mystr = `<tr><th></th><td>Your cart is empty. Please select items to display here.</td><td>----</td>
+      <td>----</td></tr>`
+       $('#items').append(mystr);
+      mybtn =  `<a class="btn btn-primary buttonimg disabled" href="{% url 'order_placed' %}" role="button" aria-disabled="true">Place Order</a>`
+       $('#buttondiv').append(mybtn);
+  }
+  else {
+  var totalsum=0;
+  var i = 1;
+  for (item in cart){
+    let name = cart[item][1];
+    let qty = cart[item][0];
+    let price = cart[item][2];
+    pricetotal = price * qty;
+    totalsum += pricetotal;
+    sum = sum+qty;
+    mystr = `<tr>
+      <th scope="row" id="serial">${i}</th>
+      <td>${name}</td>
+      <td>${qty}</td>
+      <td>${pricetotal}</td>
+    </tr>`
+  $('#items').append(mystr);
+  i++;
+  }
+    mystr2 =  `<tr>
+      <th scope="row" id="serial"></th>
+      <td></td>
+      <td><h5 class="text-right">Total: </h5></td>
+      <td>${totalsum}</td>
+    </tr>`
+       $('#items').append(mystr2);
+
+     mybtn = ` <a class="btn btn-primary buttonimg" id="orderplace" href="{% url 'order_placed' %}" role="button">Place Order</a>`
+            $('#buttondiv').append(mybtn);
+ }
+   document.getElementById('cart').innerHTML = sum;
+
+   $('#orderplace').on('click', function(){
+    var totalsum=0;
+    var i = 1;
+    var dict = new Object();
+    var list = [];
+    console.log("cart : ", cart);
+     for (item in cart){
+      let name = cart[item][1];
+      let qty = cart[item][0];
+      let price = cart[item][2];
+      pricetotal = price * qty;
+      totalsum += pricetotal;
+      list.push(new Object({
+        "Title": name,
+        "Quantity": qty,
+        "Price": price,
+        "Total_Price": pricetotal,
+      }));
+     }
+    //  list.push(new Object({"Total_Bill": totalsum}));
+     dict = {"list": list};
+     console.log(dict);
+     $.ajax({
+        url: "/home/orders/placed",
+        type: "post",
+        dataType: 'json',
+        data: JSON.stringify(list),
+        //contentType: "application/json",
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        success: function(data) {
+        }});
+   });
+</script>
+{% endblock %}
