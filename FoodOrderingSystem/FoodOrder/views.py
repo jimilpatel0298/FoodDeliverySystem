@@ -1,29 +1,31 @@
 import json
-import io
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.shortcuts import render
 from weasyprint import HTML
-
 from .models import Product, Orders, TotalOrders
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
     return render(request, "home.html", {})
 
 
+@login_required
 def home_menu(request):
     product_list = Product.objects.all()
     context = {'products': product_list}
     return render(request, "home_menu.html", context)
 
 
+@login_required
 def orders(request):
     context = {}
     return render(request, "orders.html", context)
 
 
+@login_required
 def order_placed(request):
     context = {}
     if request.method == "POST":
@@ -39,34 +41,7 @@ def order_placed(request):
     return render(request, "order_placed.html", context)
 
 
-# from io import BytesIO
-# from django.http import HttpResponse
-# from django.template.loader import get_template
-# import xhtml2pdf.pisa as pisa
-#
-#
-# class Render:
-#
-#     @staticmethod
-#     def render(path: str, params: dict):
-#         template = get_template(path)
-#         html = template.render(params)
-#         response = BytesIO()
-#         pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), response)
-#         if not pdf.err:
-#             return HttpResponse(response.getvalue(), content_type='application/pdf')
-#         else:
-#             return HttpResponse("Error Rendering PDF", status=400)
-#
-#
-# # def html_to_pdf_view(request):
-# #     data = Orders.objects.filter(user=request.user).latest('id')
-# #     data = data.orders
-# #     sum = 0
-# #     for order in data:
-# #         sum += order.total_price
-# #     return render(request,"invoice.html", {'data': data, "sum": sum})
-
+@login_required
 def html_to_pdf_view(request):
     data = Orders.objects.filter(user=request.user).latest('id')
     data = data.orders
