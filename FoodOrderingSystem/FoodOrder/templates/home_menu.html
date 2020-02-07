@@ -18,33 +18,47 @@ height: 75px;
 .btn-change{
 width: 100%;
 }
+.card {
+	background: #fff;
+	box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	img {
+		width: 100%;
+	}
+}
+[class*="row"] {
+	margin-bottom: 1em;
+  justify-content: center;
+}
+[class*="col-"] {
+	background: #efefef;
+	border: 1px solid #ddd;
+	padding-top: .75rem;
+	padding-bottom: .75rem;
+	width: 100%;
+}
+
+.cart{
+    color: white;
+}
+
 {% endblock %}
 
 {% block content %}
 <br>
-<div class="row row-cols-4 row-cols-md-4">
+<div class="card-columns">
   {% for product in products %}
-  <div class="col mb-4">
-    <div class="card">
-      <div class="view overlay">
-        {% if product.image %}
-        <img class="card-img-top" src="{{ product.image.url }}"
-          alt="Card image cap">
-        <a href="#!">
-          <div class="mask rgba-white-slight"></div>
-        </a>
-        {% endif %}
+        <div class="card">
+        <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap">
+        <div class="card-body text-center text-div">
+          <h4 class="card-title text-center" id="namepr{{product.id}}">{{product.title}}</h4>
+            <h5 class="card-text text-center">&#8377; <span  id="pricepr{{product.id}}">{{product.amount}}</span></h5>
+          <p class="card-text fixed-p text-justify">{{product.description}}</p>
+        </div>
+            <div class="card-footer text-center text-div">
+            <span id="divpr{{product.id}}" class="divpr">
+        <button id ="pr{{product.id}}" class="btn btn-danger btn-sm btn-change cart">Add To Cart</button>
+            </span></div>
       </div>
-      <div class="card-body text-center text-div">
-        <h4 class="card-title" id="namepr{{product.id}}">{{product.title}}</h4>
-        <h5 class="card-text">Rs. <span  id="pricepr{{product.id}}">{{product.amount}}</span></h5>
-        <p class="card-text fixed-p">{{product.description}}</p>
-        <span id="divpr{{product.id}}" class="divpr">
-        <a href="#" id ="pr{{product.id}}" class="btn btn-danger btn-sm btn-change cart">Add To Cart</a>
-      </span>
-      </div>
-    </div>
-  </div>
   {% endfor %}
 </div>
 {% endblock %}

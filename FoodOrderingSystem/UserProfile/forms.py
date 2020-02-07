@@ -117,3 +117,4 @@ class SignUpForm(UserCreationForm):
         self.fields['date_of_birth'].widget.attrs['placeholder'] = 'Date of Birth'
         self.fields['first_name'].widget.attrs['placeholder'] = 'First Name'
         self.fields['last_name'].widget.attrs['placeholder'] = 'Last Name'
+
